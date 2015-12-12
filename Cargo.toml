@@ -1,0 +1,11 @@
+[package]
+name = "advent-of-code"
+version = "0.0.1"
+authors = [ "Andrew Rink <andrewrink@gmail.com>" ]
+
+[[bin]]
+name = "day1"
+path = "src/day1/day1.rs"
+
+[dependencies]
+clap = "1.5.3"
