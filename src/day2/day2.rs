@@ -7,7 +7,7 @@ use std::io::prelude::*;
 use std::str::FromStr;
 
 fn main() {
-    let matches = App::new("day1")
+    let matches = App::new("day2")
         .version("v1.0")
         .author("Andrew Rink <andrewrink@gmail.com>")
         .args_from_usage("<FILE> 'Filename containing list of present dimensions'")
