@@ -45,19 +45,19 @@ fn main() {
         Ok(_) => println!("Read file {}", filename),
     }
 
-
-    let instructions: Vec<&str> = s.split('\n').collect();
+    
+    let instructions: Vec<Instruction> = s.split('\n').map(|i| parse_instruction(i)).collect();
     let mut lights : [[u8; 1000]; 1000] = [[0; 1000]; 1000];
    
     // On/Off Check
     for i in &instructions {
-        run_instruction(parse_instruction(i), &mut lights);     
+        run_instruction(i, &mut lights);     
     }
 
     let mut cnt = 0;
-    for x in 0..1000 {
-        for y in 0..1000 {
-            if lights[x][y] != 0 {
+    for x in lights.iter() {
+        for y in x.iter() {
+            if *y != 0 {
                 cnt += 1;
             }
         }
@@ -66,17 +66,17 @@ fn main() {
    
     // Reset
     let inst : Instruction = parse_instruction("turn off 0,0 through 999,999");
-    run_instruction(inst, &mut lights);
+    run_instruction(&inst, &mut lights);
 
     // Brightness check
     for i in &instructions {
-        run_brightness_instruction(parse_instruction(i), &mut lights);     
+        run_brightness_instruction(i, &mut lights);     
     }
 
     let mut bright : u64 = 0;
-    for x in 0..1000 {
-        for y in 0..1000 {
-            bright += lights[x][y] as u64;
+    for x in lights.iter() {
+        for y in x.iter() {
+            bright += *y as u64;
         }
     }
     println!("Lights are {} bright", bright);
@@ -106,7 +106,7 @@ fn parse_instruction(s : &str) -> Instruction {
 }
 
 
-fn run_instruction(inst : Instruction, lights : &mut [[u8; 1000]; 1000]) {
+fn run_instruction(inst : &Instruction, lights : &mut [[u8; 1000]; 1000]) {
     let start_x = inst.top_left.0;
     let stop_x = inst.bottom_right.0 + 1;
     let start_y = inst.top_left.1;
@@ -129,7 +129,7 @@ fn run_instruction(inst : Instruction, lights : &mut [[u8; 1000]; 1000]) {
     }
 }
 
-fn run_brightness_instruction(inst : Instruction, lights : &mut [[u8; 1000]; 1000]) {
+fn run_brightness_instruction(inst : &Instruction, lights : &mut [[u8; 1000]; 1000]) {
     let start_x = inst.top_left.0;
     let stop_x = inst.bottom_right.0 + 1;
     let start_y = inst.top_left.1;
@@ -182,60 +182,49 @@ mod tests {
         }
     }
 
+
+    fn check_entire_table(expected : u8, lights : & [[u8; 1000]; 1000]) {
+        for x in lights.iter() {
+            for y in x.iter() {
+                assert_eq!(expected, *y);
+            }
+        }
+    }
+
     #[test]
     fn instruction() {
         let mut lights : [[u8; 1000]; 1000] = [[0; 1000]; 1000];
         {
             let inst : Instruction = parse_instruction("turn on 0,0 through 999,999");
-            run_instruction(inst, &mut lights);
-    
-            for x in 0..1000 {
-                for y in 0..1000 {
-                    assert_eq!(0x1, lights[x][y]);
-                }
-            }
+            run_instruction(&inst, &mut lights);
+            check_entire_table(1, &lights);
         } 
 
         {
             let inst : Instruction = parse_instruction("toggle 0,0 through 999,999");
-            run_instruction(inst, &mut lights);
-    
-            for x in 0..1000 {
-                for y in 0..1000 {
-                    assert_eq!(0x0, lights[x][y]);
-                }
-            }
+            run_instruction(&inst, &mut lights);
+            check_entire_table(0, &lights);
         } 
         
         {
             let inst : Instruction = parse_instruction("turn on 0,0 through 999,999");
             let inst1 : Instruction = parse_instruction("turn off 0,0 through 999,999");
-            run_instruction(inst, &mut lights);
-            run_instruction(inst1, &mut lights);
-    
-            for x in 0..1000 {
-                for y in 0..1000 {
-                    assert_eq!(0x0, lights[x as usize][y as usize]);
-                }
-            }
+            run_instruction(&inst, &mut lights);
+            run_instruction(&inst1, &mut lights);
+            check_entire_table(0, &lights);
         } 
  
         {
             let inst : Instruction = parse_instruction("turn on 0,0 through 999,999");
             let inst1 : Instruction = parse_instruction("toggle 0,0 through 999,999");
-            run_instruction(inst, &mut lights);
-            run_instruction(inst1, &mut lights);
-    
-            for x in 0..1000 {
-                for y in 0..1000 {
-                    assert_eq!(0x0, lights[x][y]);
-                }
-            }
+            run_instruction(&inst, &mut lights);
+            run_instruction(&inst1, &mut lights);
+            check_entire_table(0, &lights);
         } 
 
         {
             let inst : Instruction = parse_instruction("turn on 0,0 through 999,0");
-            run_instruction(inst, &mut lights);
+            run_instruction(&inst, &mut lights);
     
             for x in 0..1000 {
                 assert_eq!(0x1, lights[x][0]);
@@ -244,6 +233,5 @@ mod tests {
                 }
             }
         } 
-
     }
 }
