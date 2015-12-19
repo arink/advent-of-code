@@ -7,7 +7,7 @@ use std::io::prelude::*;
 
 
 fn main() {
-    let matches = App::new("day7")
+    let matches = App::new("day8")
         .version("v1.0")
         .author("Andrew Rink <andrewrink@gmail.com>")
         .args_from_usage("<FILE> 'File containing strings'")
