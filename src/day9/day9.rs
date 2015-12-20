@@ -88,7 +88,7 @@ fn generate_path(tsp : &TSP, shortest : bool) -> (usize, Vec<String>) {
     if tsp.visited.len() != tsp.routes.len() {
         for (city, paths) in &tsp.routes {
             // Needs to be the previously visited city if there is one
-            if tsp.visited.len() > 0 && tsp.visited.last().unwrap() != city {
+            if !tsp.visited.is_empty() && tsp.visited.last().unwrap() != city {
                 continue;
             }
 

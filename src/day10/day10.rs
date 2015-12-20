@@ -1,7 +1,6 @@
 extern crate clap;
 extern crate regex;
 use clap::App;
-use std::error::Error;
 
 
 fn main() {
