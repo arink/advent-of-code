@@ -47,8 +47,14 @@ path = "src/day10/day10.rs"
 name = "day11"
 path = "src/day11/day11.rs"
 
+[[bin]]
+name = "day12"
+path = "src/day12/day12.rs"
+
+
 [dependencies]
 clap = "1.5.3"
 rust-crypto = "0.2.34"
 regex = "0.1.43"
+rustc-serialize = "0.3"
 #clippy = "0.0.30"
