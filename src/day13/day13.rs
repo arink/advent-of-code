@@ -21,7 +21,7 @@ impl Seating {
         }
     }
 
-    fn get (&self, name : & String) -> i32 {
+    fn get (&self, name : &str) -> i32 {
         *self.happy.get(name).unwrap()
     }
 
@@ -62,7 +62,8 @@ fn main() {
     // permutations which leads to lots of duplicates.  For
     // example
     //      'a d b c' is the same as 'a c b d'
-    let names = input.keys().map(|v| v.clone()).collect::<Vec<String>>();
+    //let names = input.keys().map(|v| v.clone()).collect::<Vec<String>>();
+    let names = input.keys().cloned().collect::<Vec<String>>();
 
     let perms = permutation(&names, 0);
 
@@ -101,13 +102,13 @@ fn score_permutations(input : HashMap<String, Seating>, perms : Vec<Vec<String>>
 }
 
 
-fn permutation(available : & Vec<String>, index : usize) -> Vec<Vec<String>> {
+fn permutation(available : &[String], index : usize) -> Vec<Vec<String>> {
     let mut v : Vec<Vec<String>> = Vec::new();
 
     if index == available.len() - 1 {
-        v.push(available.clone());
+        v.push(available.to_vec().clone());
     } else {
-        let mut upd = available.clone();
+        let mut upd = available.to_vec().clone();
         for j in index..upd.len() {
             upd.swap(index, j);
             let p : &mut Vec<Vec<String>> = &mut permutation(&upd, index + 1);
