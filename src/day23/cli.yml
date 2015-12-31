@@ -1,0 +1,11 @@
+name: day23
+version: 1.0
+author: Andrew Rink <andrewrink@gmail.com>
+about: Day 23 of Advent of Code
+args:
+    - FILE:
+        short: f
+        long: file
+        help: File containing instructions
+        required : true
+        takes_value: true
