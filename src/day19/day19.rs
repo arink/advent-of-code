@@ -35,7 +35,6 @@ fn main() {
 }
 
 fn build_molecule(molecule : &str) {
-    let elements: Vec<&str> = Vec::new();
     let re = Regex::new(r"([A-Z]{1}[a-z]?)").unwrap();
 
     let mut drop = 0;

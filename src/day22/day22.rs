@@ -196,19 +196,14 @@ fn find_min_mana_usage(state : GameState, spells : &Vec<Spell>, hard_mode : bool
         } else if game.players_turn {
             game.players_turn = false;
             for s in spells {
-                if !game.spell_in_effect(s) && game.player.mana >= s.mana_cost {
-                    // Prune search space if mana usage is already greater than known winner
-                    if ((game.player.mana_usage + s.mana_cost) as usize) < game.minimum_mana_usage.load(Ordering::SeqCst) {
-                        let mut new_game_state = game.clone();
-                        new_game_state.add_spell(s.clone());
+                if !game.spell_in_effect(s) && game.player.mana >= s.mana_cost && ((game.player.mana_usage + s.mana_cost) as usize) < game.minimum_mana_usage.load(Ordering::SeqCst) {
+                    let mut new_game_state = game.clone();
+                    new_game_state.add_spell(s.clone());
 
-                        if (new_game_state.player.mana_usage as usize) < new_game_state.minimum_mana_usage.load(Ordering::SeqCst) {
-                            let new_mana_usage = find_min_mana_usage(new_game_state, spells, hard_mode);
-                            if new_mana_usage < mana_usage && (new_mana_usage as usize) <  game.minimum_mana_usage.load(Ordering::SeqCst) {
-                                mana_usage = new_mana_usage;
-                                game.minimum_mana_usage.store(mana_usage as usize, Ordering::SeqCst);
-                            }
-                        }
+                    let new_mana_usage = find_min_mana_usage(new_game_state, spells, hard_mode);
+                    if new_mana_usage < mana_usage && (new_mana_usage as usize) <  game.minimum_mana_usage.load(Ordering::SeqCst) {
+                        mana_usage = new_mana_usage;
+                        game.minimum_mana_usage.store(mana_usage as usize, Ordering::SeqCst);
                     }
                 }
             }
@@ -257,7 +252,6 @@ fn parse_input(input : Vec<&str>) -> Character {
         }
     }
 
-    let boss = Character::new(hp, damage, 0);
-    boss
+    Character::new(hp, damage, 0)
 }
 

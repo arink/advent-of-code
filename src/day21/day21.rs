@@ -297,7 +297,6 @@ fn parse_input(input : Vec<&str>) -> Character {
         }
     }
 
-    let boss = Character::new(hp, damage, armor);
-    boss
+    Character::new(hp, damage, armor)
 }
 
