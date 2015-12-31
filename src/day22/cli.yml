@@ -1,0 +1,21 @@
+name: day22
+version: 1.0
+author: Andrew Rink <andrewrink@gmail.com>
+about: Day 22 of Advent of Code
+args:
+    - FILE:
+        short: f
+        long: file
+        help: File containing boss stats
+        required : true
+        takes_value: true
+    - HP:
+        short: p
+        help: Character hit points
+        required: false
+        takes_value: true
+    - MANA:
+        short: m
+        help: Character mana
+        required: false
+        takes_value: true
