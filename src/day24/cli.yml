@@ -1,0 +1,11 @@
+name: day24
+version: 1.0
+author: Andrew Rink <andrewrink@gmail.com>
+about: Day 24 of Advent of Code
+args:
+    - FILE:
+        short: f
+        long: file
+        help: File containing packages
+        required : true
+        takes_value: true
