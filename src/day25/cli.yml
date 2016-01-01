@@ -1,0 +1,15 @@
+name: day25
+version: 1.0
+author: Andrew Rink <andrewrink@gmail.com>
+about: Day 25 of Advent of Code
+args:
+    - ROW:
+        short: r
+        help: Row of code
+        required : true
+        takes_value: true
+    - COLUMN:
+        short: c
+        help: Column of code
+        required : true
+        takes_value: true

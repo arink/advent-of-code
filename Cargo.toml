@@ -99,6 +99,10 @@ path = "src/day23/day23.rs"
 name = "day24"
 path = "src/day24/day24.rs"
 
+[[bin]]
+name = "day25"
+path = "src/day25/day25.rs"
+
 [dependencies]
 clap = {version = "1.5.4", features = ["yaml"] }
 rust-crypto = "0.2.34"
