@@ -27,7 +27,6 @@ def parse_disks(filename):
         while d < len(disks):
             disk = disks[d]
             loc = (disk[1] + i + d + 1) % disk[0]
-            #print "Drop at t = " + str(i) + ": Disk " + str(disk[2]) + " would be at location " + str(loc)
             if loc != 0:
                 all_zero = False
                 break
